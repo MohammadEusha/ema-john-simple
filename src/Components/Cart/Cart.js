@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 const Cart = (props) => {
     const cart = props.cart
     //  ShortCut of Showing Price
@@ -10,7 +11,7 @@ const Cart = (props) => {
     let price = 0
     for (let i = 0; i < cart.length; i++) {
         const product = cart[i];
-        price = price + product.price
+        price = price + product.price * product.quantity || 1;
 
     }
     let shipping = 0;
@@ -28,14 +29,16 @@ const Cart = (props) => {
     const grandTotal = (price + shipping + Number(tax)).toFixed(2);
     return (
         <div>
-            <h2>Order Summary</h2>
+            <h2 className="text-primary">Order Summary</h2>
             <h3>Items Ordered : {cart.length} </h3>
             <p><small>Items Price :{Number((price).toFixed(2))} </small></p>
             <p><small>Shipping $ Handling : {shipping}</small></p>
             <p><small>Total Before Tax :{(price + shipping).toFixed(2)}</small></p>
             <p><small>Estimated Tax {tax} </small></p>
             <h3>Order Total : {Number(grandTotal)} </h3>
-            <button  className= "main-button"> <FontAwesomeIcon icon={faShoppingCart} />Review Your Order </button>
+            {
+                props.children
+            }
         </div>
     );
 };
